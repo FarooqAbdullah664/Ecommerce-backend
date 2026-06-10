@@ -12,7 +12,7 @@ const addProduct = async (req, res) => {
 const getProducts = async (req, res) => {
     try {
         const { category, search, page = 1, limit = 12 } = req.query;
-        let filter = { isActive: true };
+        let filter = {};
         if (category) filter.category = category;
         if (search) filter.name = { $regex: search, $options: 'i' };
 
