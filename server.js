@@ -13,7 +13,15 @@ const cardRoutes = require("./Router/cardRoutes");
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-Db();
+// Vercel serverless ke liye - har request se pehle DB connect karo
+app.use(async (req, res, next) => {
+    try {
+        await Db();
+        next();
+    } catch (err) {
+        res.status(500).json({ message: "Database connection failed", error: err.message });
+    }
+});
 
 // CORS - allow all origins in development
 app.use(cors({
